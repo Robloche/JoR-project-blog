@@ -12,6 +12,7 @@
   animation: spin 1000ms linear infinite;
   color: inherit;
   opacity: 0.6;
+  margin-inline: auto;
 }
 
 .wrapper svg {

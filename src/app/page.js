@@ -1,18 +1,16 @@
 import React from 'react';
-
-import BlogPostPage from '@/components/BlogPostPage';
+import BlogPostListPage from 'src/components/BlogPostListPage';
 import Spinner from '@/components/Spinner';
-
 import styles from './homepage.module.css';
 
-const Home = async () => {
+const Home = () => {
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.mainHeading}>
         Latest Content:
       </h1>
       <React.Suspense fallback={<Spinner/>}>
-        <BlogPostPage/>
+        <BlogPostListPage/>
       </React.Suspense>
     </div>
   );
