@@ -5,6 +5,22 @@ import {MDXRemote} from 'next-mdx-remote/rsc';
 import Spinner from '@/components/Spinner';
 import {delay} from '@/utils';
 import {loadBlogPost} from '@/helpers/file-helpers';
+import {BLOG_TITLE} from '@/constants';
+
+const getData = React.cache(async (slug, ms) => {
+  const post = await loadBlogPost(slug);
+  await delay(ms);
+  return post;
+});
+
+export async function generateMetadata({params}) {
+  const {frontmatter: {abstract, title}} = await getData(params.postSlug, 2_000);
+
+  return {
+    description: abstract,
+    title: `${title} • ${BLOG_TITLE}`,
+  };
+}
 
 const BlogPost = ({params}) => {
   return (
@@ -15,12 +31,6 @@ const BlogPost = ({params}) => {
     </article>
   );
 }
-
-const getData = async (slug, ms) => {
-  const post = await loadBlogPost(slug);
-  await delay(ms);
-  return post;
-};
 
 const Post = async ({slug}) => {
   const {frontmatter: {publishedOn, title}, content} = await getData(slug, 3_000);

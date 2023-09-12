@@ -4,6 +4,14 @@ import BlogSummaryCard from '@/components/BlogSummaryCard';
 import Spinner from '@/components/Spinner';
 import {delay} from '@/utils';
 import {getBlogPostList} from '@/helpers/file-helpers';
+import {BLOG_TITLE} from '@/constants';
+
+export async function generateMetadata() {
+  return {
+    description: 'A wonderful blog about JavaScript',
+    title: BLOG_TITLE,
+  };
+}
 
 const Home = () => {
   return (
