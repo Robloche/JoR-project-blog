@@ -5,8 +5,14 @@ import CodeSnippet from '@/components/CodeSnippet';
 import {MDXRemote} from 'next-mdx-remote/rsc';
 import Spinner from '@/components/Spinner';
 import {delay} from '@/utils';
+import dynamic from 'next/dynamic';
 import {loadBlogPost} from '@/helpers/file-helpers';
 import {BLOG_TITLE} from '@/constants';
+
+const DivisionGroupsDemo = dynamic(
+  () => import('@/components/DivisionGroupsDemo'),
+  { loading: Spinner }
+);
 
 const getData = React.cache(async (slug, ms) => {
   const post = await loadBlogPost(slug);
@@ -14,7 +20,7 @@ const getData = React.cache(async (slug, ms) => {
   return post;
 });
 
-export async function generateMetadata({params}) {
+export const generateMetadata = async ({params}) => {
   const {frontmatter: {abstract, title}} = await getData(params.postSlug, 2_000);
 
   return {
@@ -39,7 +45,10 @@ const Post = async ({slug}) => {
       publishedOn={publishedOn}
     />
     <div className={styles.page}>
-      <MDXRemote source={content} components={{pre: CodeSnippet}}/>
+      <MDXRemote source={content} components={{
+        DivisionGroupsDemo,
+        pre: CodeSnippet
+      }}/>
     </div>
   </>);
 }
