@@ -4,24 +4,26 @@ import BlogHero from '@/components/BlogHero';
 import CodeSnippet from '@/components/CodeSnippet';
 import {MDXRemote} from 'next-mdx-remote/rsc';
 import Spinner from '@/components/Spinner';
-import {delay} from '@/utils';
 import dynamic from 'next/dynamic';
 import {loadBlogPost} from '@/helpers/file-helpers';
 import {BLOG_TITLE} from '@/constants';
 
 const DivisionGroupsDemo = dynamic(
   () => import('@/components/DivisionGroupsDemo'),
-  { loading: Spinner }
+  {loading: Spinner}
 );
 
-const getData = React.cache(async (slug, ms) => {
-  const post = await loadBlogPost(slug);
-  await delay(ms);
-  return post;
-});
+const CircularColorsDemo = dynamic(
+  () => import('@/components/CircularColorsDemo'),
+  {loading: Spinner}
+);
 
 export const generateMetadata = async ({params}) => {
-  const {frontmatter: {abstract, title}} = await getData(params.postSlug, 2_000);
+  console.log('[generateMetadata] ...');
+
+  const {frontmatter: {abstract, title}} = await loadBlogPost(params.postSlug);
+
+  console.log('[generateMetadata] done');
 
   return {
     description: abstract, title: `${title} • ${BLOG_TITLE}`,
@@ -37,7 +39,9 @@ const BlogPost = ({params}) => {
 }
 
 const Post = async ({slug}) => {
-  const {frontmatter: {publishedOn, title}, content} = await getData(slug, 3_000);
+  console.log('[Post]');
+
+  const {frontmatter: {publishedOn, title}, content} = await loadBlogPost(slug);
 
   return (<>
     <BlogHero
@@ -46,6 +50,7 @@ const Post = async ({slug}) => {
     />
     <div className={styles.page}>
       <MDXRemote source={content} components={{
+        CircularColorsDemo,
         DivisionGroupsDemo,
         pre: CodeSnippet
       }}/>

@@ -2,7 +2,6 @@ import styles from './homepage.module.css';
 import React from 'react';
 import BlogSummaryCard from '@/components/BlogSummaryCard';
 import Spinner from '@/components/Spinner';
-import {delay} from '@/utils';
 import {getBlogPostList} from '@/helpers/file-helpers';
 import {BLOG_TITLE} from '@/constants';
 
@@ -26,14 +25,8 @@ const Home = () => {
   );
 }
 
-const getData = async (ms) => {
-  const postList = await getBlogPostList();
-  await delay(ms);
-  return postList;
-};
-
 const PostList = async () => {
-  const postList = await getData(2_000);
+  const postList = await getBlogPostList();
 
   return postList.map(({abstract, publishedOn, slug, title}) => (
     <BlogSummaryCard abstract={abstract} key={slug}

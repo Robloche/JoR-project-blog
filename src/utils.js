@@ -10,4 +10,3 @@ export const range = (start, end, step = 1) => {
   return output;
 };
 
-export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

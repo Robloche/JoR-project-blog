@@ -1,8 +1,9 @@
+import React from 'react';
 import fs from 'fs/promises';
-import path from 'path';
 import matter from 'gray-matter';
+import path from 'path';
 
-export async function getBlogPostList() {
+export const getBlogPostList = async () => {
   const fileNames = await readDirectory('/content');
 
   const blogPosts = [];
@@ -12,7 +13,7 @@ export async function getBlogPostList() {
       `/content/${fileName}`
     );
 
-    const { data: frontmatter } = matter(rawContent);
+    const {data: frontmatter} = matter(rawContent);
 
     blogPosts.push({
       slug: fileName.replace('.mdx', ''),
@@ -23,28 +24,28 @@ export async function getBlogPostList() {
   return blogPosts.sort((p1, p2) =>
     p1.publishedOn < p2.publishedOn ? 1 : -1
   );
-}
+};
 
-export async function loadBlogPost(slug) {
+export const loadBlogPost = React.cache(async (slug) => {
   const rawContent = await readFile(
     `/content/${slug}.mdx`
   );
 
-  const { data: frontmatter, content } =
+  const {data: frontmatter, content} =
     matter(rawContent);
 
-  return { frontmatter, content };
-}
+  return {frontmatter, content};
+});
 
-function readFile(localPath) {
+const readFile = (localPath) => {
   return fs.readFile(
     path.join(process.cwd(), localPath),
     'utf8'
   );
-}
+};
 
-function readDirectory(localPath) {
+const readDirectory = (localPath) => {
   return fs.readdir(
     path.join(process.cwd(), localPath)
   );
-}
+};

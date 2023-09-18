@@ -86,7 +86,7 @@ function DivisionGroupsDemo({
               Remainder Area
             </p>
 
-            {range(numOfGroups * numOfItemsPerGroup, numOfItems).toReversed().map((index) => {
+            {range(numOfGroups * numOfItemsPerGroup, numOfItems).reverse().map((index) => {
               const layoutId = `${id}-${index}`;
 
               return (
