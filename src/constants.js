@@ -125,3 +125,8 @@ export const DARK_TOKENS = {
   ...DARK_COLORS,
   ...DARK_SHADOWS,
 };
+
+export const THEME = {
+  Dark: 'dark',
+  Light: 'light'
+};

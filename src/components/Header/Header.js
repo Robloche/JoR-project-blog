@@ -1,24 +1,25 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Rss, Sun, Moon } from 'react-feather';
+import {Rss, Sun, Moon} from 'react-feather';
 
 import Logo from '@/components/Logo';
 import VisuallyHidden from '@/components/VisuallyHidden';
 
+import {THEME} from '@/constants';
 import styles from './Header.module.css';
 
-function Header({ theme, className, ...delegated }) {
+function Header({theme, className, toggleTheme, ...delegated}) {
   return (
     <header
       className={clsx(styles.wrapper, className)}
       {...delegated}
     >
-      <Logo />
+      <Logo/>
 
       <div className={styles.actions}>
         <button className={styles.action}>
           <Rss
-            size="1.5rem"
+            size='1.5rem'
             style={{
               // Optical alignment
               transform: 'translate(2px, -2px)',
@@ -28,8 +29,8 @@ function Header({ theme, className, ...delegated }) {
             View RSS feed
           </VisuallyHidden>
         </button>
-        <button className={styles.action}>
-          <Sun size="1.5rem" />
+        <button className={styles.action} onClick={toggleTheme}>
+          {theme === THEME.Light ? <Sun size='1.5rem'/> : <Moon size='1.5rem'/>}
           <VisuallyHidden>
             Toggle dark / light mode
           </VisuallyHidden>
