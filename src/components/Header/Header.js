@@ -9,6 +9,11 @@ import {THEME} from '@/constants';
 import styles from './Header.module.css';
 
 function Header({theme, className, toggleTheme, ...delegated}) {
+
+  const openRssFeed = () => {
+    window.open('rss.xml');
+  };
+
   return (
     <header
       className={clsx(styles.wrapper, className)}
@@ -17,7 +22,7 @@ function Header({theme, className, toggleTheme, ...delegated}) {
       <Logo/>
 
       <div className={styles.actions}>
-        <button className={styles.action}>
+        <button className={styles.action} onClick={openRssFeed}>
           <Rss
             size='1.5rem'
             style={{
