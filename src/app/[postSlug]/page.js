@@ -19,11 +19,7 @@ const CircularColorsDemo = dynamic(
 );
 
 export const generateMetadata = async ({params}) => {
-  console.log('[generateMetadata] ...');
-
   const {frontmatter: {abstract, title}} = await loadBlogPost(params.postSlug);
-
-  console.log('[generateMetadata] done');
 
   return {
     description: abstract, title: `${title} • ${BLOG_TITLE}`,
@@ -39,8 +35,6 @@ const BlogPost = ({params}) => {
 }
 
 const Post = async ({slug}) => {
-  console.log('[Post]');
-
   const {frontmatter: {publishedOn, title}, content} = await loadBlogPost(slug);
 
   return (<>
