@@ -7,6 +7,7 @@ import Spinner from '@/components/Spinner';
 import dynamic from 'next/dynamic';
 import {loadBlogPost} from '@/helpers/file-helpers';
 import {BLOG_TITLE} from '@/constants';
+import {notFound} from 'next/navigation';
 
 const DivisionGroupsDemo = dynamic(
   () => import('@/components/DivisionGroupsDemo'),
@@ -19,8 +20,13 @@ const CircularColorsDemo = dynamic(
 );
 
 export const generateMetadata = async ({params}) => {
-  const {frontmatter: {abstract, title}} = await loadBlogPost(params.postSlug);
+  const post = await loadBlogPost(params.postSlug);
 
+  if (post === null) {
+    return {title: `404 Not found • ${BLOG_TITLE}`};
+  }
+
+  const {frontmatter: {abstract, title}} = post;
   return {
     description: abstract, title: `${title} • ${BLOG_TITLE}`,
   };
@@ -35,7 +41,13 @@ const BlogPost = ({params}) => {
 }
 
 const Post = async ({slug}) => {
-  const {frontmatter: {publishedOn, title}, content} = await loadBlogPost(slug);
+  const post = await loadBlogPost(slug);
+
+  if (post === null) {
+    notFound();
+  }
+
+  const {frontmatter: {publishedOn, title}, content} = post;
 
   return (<>
     <BlogHero
