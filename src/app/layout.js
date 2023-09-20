@@ -1,9 +1,9 @@
-'use client';
 import React from 'react';
 import {Work_Sans, Spline_Sans_Mono} from 'next/font/google';
 import clsx from 'clsx';
+import { cookies } from 'next/headers';
 
-import {LIGHT_TOKENS, DARK_TOKENS, THEME} from '@/constants';
+import {LIGHT_TOKENS, DARK_TOKENS, THEME, THEME_COOKIE_NAME} from '@/constants';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -25,26 +25,18 @@ const monoFont = Spline_Sans_Mono({
 });
 
 function RootLayout({children}) {
-  const [theme, setTheme] = React.useState(() => localStorage.getItem('JoR-theme') === 'dark' ? THEME.Dark : THEME.Light);
-
-  React.useEffect(() => {
-    localStorage.setItem('JoR-theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((currentTheme) => currentTheme === THEME.Light ? THEME.Dark : THEME.Light);
-  };
+  const initialTheme = cookies().get(THEME_COOKIE_NAME)?.value === 'dark' ? THEME.Dark : THEME.Light;
 
   return (
     <UserMotionPreferences>
       <html
         lang='en'
         className={clsx(mainFont.variable, monoFont.variable)}
-        data-color-theme={theme}
-        style={theme === 'light' ? LIGHT_TOKENS : DARK_TOKENS}
+        data-color-theme={initialTheme}
+        style={initialTheme === 'light' ? LIGHT_TOKENS : DARK_TOKENS}
       >
       <body>
-      <Header theme={theme} toggleTheme={toggleTheme}/>
+      <Header initialTheme={initialTheme}/>
       <main>{children}</main>
       <Footer/>
       </body>

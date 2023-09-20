@@ -130,3 +130,5 @@ export const THEME = {
   Dark: 'dark',
   Light: 'light'
 };
+
+export const THEME_COOKIE_NAME = 'JoR-theme';
