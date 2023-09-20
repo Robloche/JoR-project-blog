@@ -24,10 +24,8 @@ const monoFont = Spline_Sans_Mono({
   variable: '--font-family-mono',
 });
 
-const storedTheme = localStorage.getItem('JoR-theme');
-
 function RootLayout({children}) {
-  const [theme, setTheme] = React.useState(storedTheme === 'dark' ? THEME.Dark : THEME.Light);
+  const [theme, setTheme] = React.useState(() => localStorage.getItem('JoR-theme') === 'dark' ? THEME.Dark : THEME.Light);
 
   React.useEffect(() => {
     localStorage.setItem('JoR-theme', theme);
